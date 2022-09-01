@@ -1,0 +1,6 @@
+{
+  "name": "GPT-3 Extension",
+  "description": "Use GPT-3 on a highlighted text",
+  "version": "1.0",
+  "manifest_version": 3
+}
