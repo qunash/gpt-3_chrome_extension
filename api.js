@@ -1,40 +1,3 @@
-// window.addEventListener('message', function(event) {
-
-//     if (event.data.message === "submit") {
-
-//         console.log('api.js received message from content.js');
-
-//         var prompt = request.text;
-
-//         // extract params from storage
-//         var api_token = localStorage.getItem('api_token');
-//         var temperature = localStorage.getItem('temperature');
-//         var max_tokens = localStorage.getItem('max_tokens');
-
-//         var xhr = new XMLHttpRequest();
-//         xhr.open('POST', 'https://api.openai.com/v1/completions', true);
-//         xhr.setRequestHeader('Content-Type', 'application/json');
-//         xhr.setRequestHeader('Authorization', 'Bearer ' + api_token);
-//         xhr.onreadystatechange = function () {
-//             if (xhr.readyState === 4) {
-//                 var response = JSON.parse(xhr.responseText);
-//                 var text = response.choices[0].text;
-
-//                 console.log('response from api: ' + text);
-//                 // send the text to the content script
-//                 // sendResponse({ message: "response", text: text });
-//             }
-//         };
-//         xhr.send(JSON.stringify({
-//             model: 'text-davinci-002',
-//             prompt: prompt,
-//             temperature: temperature,
-//             max_tokens: max_tokens
-//         }));
-//     }
-// });
-
-// receive submit event from content.js
 chrome.runtime.onMessage.addListener(
     (request, sender, sendResponse) => {
         sendRequestToAPI(request, sender, sendResponse);
@@ -46,8 +9,6 @@ chrome.runtime.onMessage.addListener(
 const sendRequestToAPI = async (request, _sender, sendResponse) => {
 
     if (request.message === "submit") {
-
-        console.log('api.js received message from content.js');
 
         var prompt = request.text;
 
@@ -61,8 +22,6 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
                 }
             });
         });
-
-        console.log('api_token: ' + api_token + ', temperature: ' + temperature + ', max_tokens: ' + max_tokens);
 
         const url = 'https://api.openai.com/v1/completions';
         const data = {

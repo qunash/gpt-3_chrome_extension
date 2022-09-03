@@ -1,7 +1,6 @@
 importScripts('api.js');
 
 chrome.runtime.onInstalled.addListener(function() {
-    // set default values for api_token, temperature, max_tokens on install
     chrome.storage.sync.set({
         api_token: '',
         temperature: 0.7,
@@ -12,7 +11,6 @@ chrome.runtime.onInstalled.addListener(function() {
 chrome.commands.onCommand.addListener(async function(command) {
 
     if (command === 'show_prompter') {
-        console.log('background.js: show_prompter command received');
 
         let tab = await getCurrentTab();
 

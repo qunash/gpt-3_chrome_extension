@@ -1,0 +1,133 @@
+.gpt3_prompter___prompt-div {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 32%;
+    left: 30%;
+    width: 35%;
+    height: 40%;
+    z-index: 9999;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #000000;
+}
+
+.gpt3_prompter___prompt-top-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 25px;
+    background-color: white;
+    background-color: rgba(110, 110, 128, 0.9);
+    vertical-align: middle;
+}
+
+.gpt3_prompter___prompt-close-button {
+    font-size: 20px;
+    font-weight: bold;
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+#gpt3_prompter___prompt-area {
+    resize: none;
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    font-family: arial,sans-serif;
+    background-color: white;
+    color: black;
+    border: none;
+    outline: none;
+}
+
+.gpt3_prompter___prompt-bottom-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    height: 10px;
+    background-color: white;
+    background-color: rgba(110, 110, 128, 0.9);
+}
+
+.gpt3_prompter___prompt-submit-button {
+    padding: 10px;
+    font-size: 16px;
+    font-family: arial,sans-serif;
+    background-color: #10a37f;
+    color: white;
+    font-weight: bold;
+    border-top: 1px solid #000000;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.gpt3_prompter___prompt-submit-button:hover {
+    background-color: #1a7f64;
+}
+
+.gpt3_prompter___white-text-bold {
+    width: 40px;
+    text-align: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: arial,sans-serif;
+}
+
+.gpt3_prompter___white-text {
+    width: 10%;
+    white-space: nowrap;
+    text-align: center;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    font-family: arial,sans-serif;
+}
+
+.gpt3_prompter___input-field {
+    width: 50px;
+    height: 20px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+}
+
+.gpt3_prompter___loading-animation {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    border-top: 3px solid #ffffff;
+    animation: spin 1s linear infinite;
+}
+
+.gpt3_prompter___resizer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    background-color: transparent;
+    outline: none;
+    cursor: se-resize;
+}

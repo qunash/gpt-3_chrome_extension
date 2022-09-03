@@ -3,88 +3,37 @@ chrome.runtime.onMessage.addListener(
 
       if (request.greeting === "show_prompter"){
 
-        console.log('content.js received message from background.js');
-
         showPrompter();
-
       }
-
     }
 );
 
 function showPrompter() {
   
-    // flex div with a column of 3 elements, one below the other:
-    // 1. top bar with a small x button on the right that removes the flex div from the document.
-    // 2. textarea with the document's selected text
-    // 3. submit button
-
     var flexDiv = document.createElement("div");
-    flexDiv.style.display = "flex";
-    flexDiv.style.flexDirection = "column";
-    flexDiv.style.position = "fixed";
-    flexDiv.style.top = "32%";
-    flexDiv.style.left = "30%";
-    flexDiv.style.width = "35%";
-    flexDiv.style.height = "40%";
-    flexDiv.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-    flexDiv.style.zIndex = "9999";
-    flexDiv.style.border = "1px solid #000000";
-    flexDiv.style.borderRadius = "5px";
-    flexDiv.style.boxShadow = "0 0 10px #000000";
-
+    flexDiv.className = "gpt3_prompter___prompt-div";
 
     var topBar = document.createElement("div");
-    topBar.style.display = "flex";
-    topBar.style.flexDirection = "row";
-    topBar.style.justifyContent = "space-between";
-    topBar.style.alignItems = "center";
-    topBar.style.padding = "10px";
-    topBar.style.height = "10px";
-    topBar.style.backgroundColor = "white";
-    topBar.style.backgroundColor = "rgba(0, 0, 255, 0.5)";
+    topBar.className = "gpt3_prompter___prompt-top-bar";
 
     var closeButton = document.createElement("button");
     closeButton.innerHTML = "x";
-    closeButton.style.fontSize = "20px";
-    closeButton.style.fontWeight = "bold";
-    closeButton.style.backgroundColor = "transparent";
-    closeButton.style.border = "none";
-    closeButton.style.outline = "none";
-    closeButton.style.cursor = "pointer";
+    closeButton.className = "gpt3_prompter___prompt-close-button";
     closeButton.addEventListener("click", function() {
       document.body.removeChild(flexDiv);
     });
-    closeButton.style.marginLeft = "auto";
-
 
     var textArea = document.createElement("textarea");
-    textArea.id = "prompt-area";
-    textArea.style.resize = "none";
-    textArea.style.flex = "1";
-    textArea.style.padding = "10px";
-    textArea.style.fontSize = "16px";
-    textArea.style.fontFamily = "monospace";
-    textArea.style.backgroundColor = "white";
-    textArea.style.color = "black";
-    textArea.style.border = "none";
-    textArea.style.outline = "none";
+    textArea.id = "gpt3_prompter___prompt-area";
     textArea.value = window.getSelection().toString().trim();
 
-    // a bottom bar with a slider for temperature and a field for max_tokens
     var bottomBar = document.createElement("div");
-    bottomBar.style.display = "flex";
-    bottomBar.style.flexDirection = "row";
-    bottomBar.style.justifyContent = "space-between";
-    bottomBar.style.alignItems = "center";
-    bottomBar.style.padding = "10px";
-    bottomBar.style.height = "10px";
-    bottomBar.style.backgroundColor = "white";
-    bottomBar.style.backgroundColor = "rgba(0, 0, 255, 0.5)";
+    bottomBar.className = "gpt3_prompter___prompt-bottom-bar";
     
     var temperatureLabel = document.createElement("label");
     temperatureLabel.innerHTML = "Temperature: ";
     temperatureLabel.style.marginRight = "10px";
+    temperatureLabel.className = "gpt3_prompter___white-text";
 
     var temperatureSlider = document.createElement("input");
     temperatureSlider.type = "range";
@@ -97,29 +46,21 @@ function showPrompter() {
     temperatureSlider.style.width = "100px";
 
 
-    var temperatureField = document.createElement("input");
-    temperatureField.type = "text";
+    var temperatureField = document.createElement("label");
     chrome.storage.sync.get("temperature", function(data) {
-      temperatureField.value = data.temperature;
+      temperatureField.innerHTML = data.temperature;
     });
-    temperatureField.style.width = "40px";
-    temperatureField.style.textAlign = "center";
-    temperatureField.style.border = "none";
-    temperatureField.style.outline = "none";
-    temperatureField.style.backgroundColor = "transparent";
-    temperatureField.style.color = "white";
-    temperatureField.style.fontWeight = "bold";
-    temperatureField.style.fontSize = "16px";
-    temperatureField.style.fontFamily = "monospace";
+    temperatureField.className = "gpt3_prompter___white-text-bold";
 
     temperatureSlider.oninput = function() {
       chrome.storage.sync.set({"temperature": this.value});
-      temperatureField.value = this.value;
+      temperatureField.innerHTML = this.value;
     }
 
     var maxTokensLabel = document.createElement("label");
-    maxTokensLabel.innerHTML = "Max Tokens: ";
+    maxTokensLabel.innerHTML = "Max tokens: ";
     maxTokensLabel.style.marginRight = "10px";
+    maxTokensLabel.className = "gpt3_prompter___white-text";
 
     var maxTokensField = document.createElement("input");
     maxTokensField.type = "number";
@@ -129,7 +70,7 @@ function showPrompter() {
     chrome.storage.sync.get(['max_tokens'], function(result) {
       maxTokensField.value = result.max_tokens;
     });
-    maxTokensField.style.width = "50px";
+    maxTokensField.className = "gpt3_prompter___input-field";
 
     maxTokensField.onchange = function() {
       chrome.storage.sync.set({"max_tokens": this.value});
@@ -145,23 +86,8 @@ function showPrompter() {
 
     var submitButton = document.createElement("button");
     submitButton.innerHTML = "Submit";
-    submitButton.style.padding = "10px";
-    submitButton.style.fontSize = "16px";
-    submitButton.style.fontFamily = "monospace";
-    submitButton.style.backgroundColor = "white";
-    submitButton.style.color = "black";
-    submitButton.style.borderTop = "1px solid #000000";
-    submitButton.style.borderLeft = "none";
-    submitButton.style.borderRight = "none";
-    submitButton.style.borderBottom = "none";
-    submitButton.style.outline = "none";
-    submitButton.style.cursor = "pointer";
+    submitButton.className = "gpt3_prompter___prompt-submit-button";
     submitButton.addEventListener("click", function() {
-      // var text = textArea.value;
-      // var url = "https://www.google.com/search?q=" + encodeURIComponent(text);
-      // window.open(url, "_blank");
-      // document.body.removeChild(flexDiv);
-
       onSubmitClick(submitButton, textArea.value);
     });
 
@@ -226,14 +152,7 @@ function showPrompter() {
 
     // make the flex div resizable by the bottom right corner
     var resizer = document.createElement("div");
-    resizer.style.position = "absolute";
-    resizer.style.bottom = "0";
-    resizer.style.right = "0";
-    resizer.style.width = "20px";
-    resizer.style.height = "20px";
-    resizer.style.backgroundColor = "white";
-    resizer.style.outline = "none";
-    resizer.style.cursor = "se-resize";
+    resizer.className = "gpt3_prompter___resizer";
     resizer.innerHTML = "<p style='font-size: 10px; margin: 0; padding: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg);'><></p>";
     resizer.addEventListener("mousedown", initResize, false);
 
@@ -273,63 +192,35 @@ function showPrompter() {
 
   }
 
+
   function onSubmitClick(submitButton, text) {
 
-    textArea = document.getElementById("prompt-area");
+    textArea = document.getElementById("gpt3_prompter___prompt-area");
 
     // slightly grey out and disable the submit button and textarea
     submitButton.style.backgroundColor = "#e6e6e6";
 
     // show the loading animation
     var loadingAnimation = document.createElement("div");
-    loadingAnimation.style.position = "absolute";
-    loadingAnimation.style.top = "50%";
-    loadingAnimation.style.left = "50%";
-    loadingAnimation.style.transform = "translate(-50%, -50%)";
-    loadingAnimation.style.width = "20px";
-    loadingAnimation.style.height = "20px";
-    loadingAnimation.style.border = "3px solid #000000";
-    loadingAnimation.style.borderRadius = "50%";
-    loadingAnimation.style.borderTop = "3px solid #ffffff";
-    loadingAnimation.style.animation = "spin 1s linear infinite";
+    loadingAnimation.className = "gpt3_prompter___loading-animation";
     submitButton.appendChild(loadingAnimation);
 
     submitButton.disabled = true;
     textArea.disabled = true;
 
-    // send a message to the background script
     chrome.runtime.sendMessage({
       message: "submit",
       text: text
     }, function(response) {
       
-      // response example:
-      // {
-      //   "id": "cmpl-5mTN14LaX43ebfsqduhC4NLNuBCAA",
-      //   "object": "text_completion",
-      //   "created": 1662234327,
-      //   "model": "text-davinci-002",
-      //   "choices": [
-      //     {
-      //       "text": "\n\nPi is a mathematical constant that is the ratio of a circle's circumference to its diameter.",
-      //       "index": 0,
-      //       "logprobs": null,
-      //       "finish_reason": "stop"
-      //     }
-      //   ],
-      //   "usage": {
-      //     "prompt_tokens": 4,
-      //     "completion_tokens": 20,
-      //     "total_tokens": 24
-      //   }
-      // }
-      // extract the text from the response
-
-      // append the text to the textarea
       try {
         textArea.value += response.choices[0].text;
       } catch (e) {
-        textArea.value += "Error: " + e;
+        if (response.error) {
+          textArea.value += response.error.message;
+        } else {
+          textArea.value += "Error: " + e;
+        }
       }
       
       // remove the loading animation
@@ -338,7 +229,5 @@ function showPrompter() {
       submitButton.disabled = false;
       textArea.disabled = false;
       textArea.focus();
-
-      console.log("api response: ", response);
     });
   }

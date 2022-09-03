@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// restore settings on page load
+// restore settings on page load:
 chrome.storage.sync.get(['api_token', 'temperature', 'max_tokens'], function(result) {
     document.getElementById('api_token').value = result.api_token === undefined ? '' : result.api_token;
 });
