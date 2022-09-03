@@ -1,6 +1,30 @@
 {
-  "name": "GPT-3 Extension",
-  "description": "Use GPT-3 on a highlighted text",
-  "version": "1.0",
-  "manifest_version": 3
+    "manifest_version": 3,
+    "name": "GPT-3 prompter",
+    "description": "GPT-3 prompter",
+    "version": "1.0",
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "storage",
+        "scripting",
+        "notifications"
+    ],
+    "commands": {
+        "show_prompter": {
+            "suggested_key": "Alt+S",
+            "description": "Show prompter"
+        }
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ]
 }
