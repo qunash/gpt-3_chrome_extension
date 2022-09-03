@@ -10,6 +10,20 @@ chrome.runtime.onMessage.addListener(
 
 function showPrompter() {
   
+  const selectedText = window.getSelection().toString().trim();
+
+  if (document.getElementsByClassName("gpt3_prompter___prompt-div").length > 0) {
+        var textArea = document.getElementById("gpt3_prompter___prompt-area");
+        
+        if (selectedText !== "") {
+          textArea.value = selectedText;
+        }
+
+        textArea.focus();
+
+        return;
+    }
+
     var flexDiv = document.createElement("div");
     flexDiv.className = "gpt3_prompter___prompt-div";
 
@@ -25,7 +39,7 @@ function showPrompter() {
 
     var textArea = document.createElement("textarea");
     textArea.id = "gpt3_prompter___prompt-area";
-    textArea.value = window.getSelection().toString().trim();
+    textArea.value = selectedText;
 
     var bottomBar = document.createElement("div");
     bottomBar.className = "gpt3_prompter___prompt-bottom-bar";
@@ -107,6 +121,12 @@ function showPrompter() {
     textArea.addEventListener('keydown', (event) => {
       if(event.ctrlKey && event.key == "Enter") {
         submitButton.click();
+      }
+    });
+
+    flexDiv.addEventListener('keydown', (event) => {
+      if(event.key == "Escape") {
+        closeButton.click();
       }
     });
   }
@@ -217,7 +237,7 @@ function showPrompter() {
         textArea.value += response.choices[0].text;
       } catch (e) {
         if (response.error) {
-          textArea.value += response.error.message;
+          textArea.value += '\n\nError: ' + response.error.message;
         } else {
           textArea.value += "Error: " + e;
         }

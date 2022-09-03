@@ -31,16 +31,22 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
             "max_tokens": parseInt(max_tokens)
 
         };
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${api_token}`
-            },
-            body: JSON.stringify(data)
-        });
-        const json = await response.json();
-        sendResponse(json);
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${api_token}`
+                },
+                body: JSON.stringify(data)
+            });
+            const json = await response.json();
+            sendResponse(json);
+        } catch (e) {
+            sendResponse({ error: { message: e.message } });
+
+        }
     }
 
 }

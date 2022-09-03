@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+    var open_api_keys = document.getElementById('open_api_keys');
+    open_api_keys.addEventListener('click', function() {
+        chrome.tabs.create({url: 'https://beta.openai.com/account/api-keys'});
+    });
+    
+
     var saveButton = document.getElementById('save');
     saveButton.addEventListener('click', function() {
         var api_token = document.getElementById('api_token').value;
