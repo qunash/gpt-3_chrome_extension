@@ -32,6 +32,8 @@
     outline: none;
     cursor: pointer;
     margin-left: auto;
+    margin-top: -3px;
+    margin-right: 3px;
 }
 
 #gpt3_prompter___prompt-area {
@@ -99,6 +101,13 @@
     font-size: 16px;
     font-family: arial, sans-serif;
 }
+
+.gpt3_prompter___gray-text p {
+    font-size: 14px;
+    margin: 4px;
+    padding: 4px;
+    color: #666;
+  }
 
 .gpt3_prompter___input-field {
     width: 50px;
