@@ -21,8 +21,8 @@ function showSettingsPage() {
     return;
   }
 
-  var div = document.createElement('div');
-  div.className = "gpt3_prompter___settings-popup";
+  var settingsPopup = document.createElement('div');
+  settingsPopup.className = "gpt3_prompter___settings-popup";
 
   var input = document.createElement('input');
   input.className = "gpt3_prompter___input-field";
@@ -32,39 +32,34 @@ function showSettingsPage() {
   input.style.margin = '10px';
   input.style.padding = '10px';
 
-  var text = document.createElement('p');
-  text.style.fontSize = '14px';
-  text.style.margin = '4px';
-  text.style.padding = '4px';
-  text.style.color = '#666';
-  text.innerHTML = "You can change your API key in the extension's popup menu later.";
-
-  var open_api_keys = document.createElement('button');
-  open_api_keys.className = "gpt3_prompter___button";
-  open_api_keys.setAttribute('autocomplete', 'off');
-  open_api_keys.innerHTML = 'Get API key';
+  var hint = document.createElement('p');
+  hint.className = "gpt3_prompter___gray-text";
+  hint.innerHTML = "You can change your API key in the extension's popup menu later.";
 
 
-  var save = document.createElement('button');
-  save.className = "gpt3_prompter___button";
-  save.innerHTML = "Save";
+  var get_api_key = document.createElement('button');
+  get_api_key.className = "gpt3_prompter___button";
+  get_api_key.setAttribute('autocomplete', 'off');
+  get_api_key.innerHTML = 'Get API key';
 
-  div.appendChild(input);
-  div.appendChild(text);
-  div.appendChild(open_api_keys);
-  div.appendChild(save);
 
-  document.body.appendChild(div);
+  var saveBtn = document.createElement('button');
+  saveBtn.className = "gpt3_prompter___button";
+  saveBtn.innerHTML = "Save";
+
+  appendChildren(settingsPopup, [input, hint, get_api_key, saveBtn]);
+
+  document.body.appendChild(settingsPopup);
 
   input.focus();
 
-  open_api_keys.addEventListener('click', function () {
+  get_api_key.addEventListener('click', function () {
     window.open('https://beta.openai.com/account/api-keys');
   });
 
-  save.addEventListener('click', function () {
+  saveBtn.addEventListener('click', function () {
     chrome.storage.sync.set({ api_key: input.value }, function () {
-      div.remove();
+      settingsPopup.remove();
       if (input.value !== '') {
         showPrompter();
       }
@@ -73,12 +68,11 @@ function showSettingsPage() {
 
   input.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.key == "Enter") {
-      save.click();
+      saveBtn.click();
     }
   });
 
 }
-
 
 
 function showPrompter() {
@@ -97,17 +91,17 @@ function showPrompter() {
     return;
   }
 
-  var flexDiv = document.createElement("div");
-  flexDiv.className = "gpt3_prompter___prompt-popup";
+  var prompter = document.createElement("div");
+  prompter.className = "gpt3_prompter___prompt-popup";
 
   var topBar = document.createElement("div");
   topBar.className = "gpt3_prompter___prompt-top-bar";
 
-  var closeButton = document.createElement("button");
-  closeButton.innerHTML = "x";
-  closeButton.className = "gpt3_prompter___prompt-close-button";
-  closeButton.addEventListener("click", function () {
-    document.body.removeChild(flexDiv);
+  var closeBtn = document.createElement("button");
+  closeBtn.innerHTML = "x";
+  closeBtn.className = "gpt3_prompter___prompt-close-button";
+  closeBtn.addEventListener("click", function () {
+    document.body.removeChild(prompter);
   });
 
   var textArea = document.createElement("div");
@@ -118,32 +112,32 @@ function showPrompter() {
   var bottomBar = document.createElement("div");
   bottomBar.className = "gpt3_prompter___prompt-bottom-bar";
 
-  var temperatureLabel = document.createElement("div");
-  temperatureLabel.innerHTML = "Temperature: ";
-  temperatureLabel.style.marginRight = "10px";
-  temperatureLabel.className = "gpt3_prompter___white-text";
+  var tempLabel = document.createElement("div");
+  tempLabel.innerHTML = "Temperature: ";
+  tempLabel.style.marginRight = "10px";
+  tempLabel.className = "gpt3_prompter___white-text";
 
-  var temperatureSlider = document.createElement("input");
-  temperatureSlider.type = "range";
-  temperatureSlider.className = "gpt3_prompter___input-range";
-  temperatureSlider.min = "0.0";
-  temperatureSlider.max = "1.0";
-  temperatureSlider.step = "0.1";
+  var tempSlider = document.createElement("input");
+  tempSlider.type = "range";
+  tempSlider.className = "gpt3_prompter___input-range";
+  tempSlider.min = "0.0";
+  tempSlider.max = "1.0";
+  tempSlider.step = "0.1";
   chrome.storage.sync.get("temperature", function (data) {
-    temperatureSlider.value = data.temperature;
+    tempSlider.value = data.temperature;
   });
-  temperatureSlider.style.width = "100px";
+  tempSlider.style.width = "100px";
 
 
-  var temperatureField = document.createElement("div");
+  var tempField = document.createElement("div");
   chrome.storage.sync.get("temperature", function (data) {
-    temperatureField.innerHTML = data.temperature;
+    tempField.innerHTML = data.temperature;
   });
-  temperatureField.className = "gpt3_prompter___white-text-bold";
+  tempField.className = "gpt3_prompter___white-text-bold";
 
-  temperatureSlider.oninput = function () {
+  tempSlider.oninput = function () {
     chrome.storage.sync.set({ "temperature": this.value });
-    temperatureField.innerHTML = this.value;
+    tempField.innerHTML = this.value;
   }
 
   var maxTokensLabel = document.createElement("div");
@@ -166,35 +160,30 @@ function showPrompter() {
   }
 
 
-  bottomBar.appendChild(temperatureLabel);
-  bottomBar.appendChild(temperatureSlider);
-  bottomBar.appendChild(temperatureField);
-  bottomBar.appendChild(maxTokensLabel);
-  bottomBar.appendChild(maxTokensField);
+  appendChildren(bottomBar, [tempLabel, tempSlider, tempField, maxTokensLabel, maxTokensField]);
 
 
-  var submitButton = document.createElement("button");
-  submitButton.innerHTML = "Submit";
-  submitButton.className = "gpt3_prompter___prompt-submit-button";
-  submitButton.addEventListener("click", function () {
-    onSubmitClick(submitButton, textArea.textContent);
+  var submitBtn = document.createElement("button");
+  submitBtn.innerHTML = "Submit";
+  submitBtn.className = "gpt3_prompter___prompt-submit-button";
+  submitBtn.addEventListener("click", function () {
+    onSubmitClick(submitBtn, textArea.textContent);
   });
 
-  topBar.appendChild(closeButton);
-  flexDiv.appendChild(topBar);
-  flexDiv.appendChild(textArea);
-  flexDiv.appendChild(bottomBar);
-  flexDiv.appendChild(submitButton);
-  document.body.appendChild(flexDiv);
+  topBar.appendChild(closeBtn);
+
+  appendChildren(prompter, [topBar, textArea, bottomBar, submitBtn]);
+
+
+  document.body.appendChild(prompter);
   textArea.focus();
 
-  makeFlexDivDraggable(topBar, flexDiv);
-
-  makeFlexDivResizable(flexDiv);
+  makePrompterDraggable(topBar, prompter);
+  makePrompterResizable(prompter);
 
   textArea.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.key == "Enter") {
-      submitButton.click();
+      submitBtn.click();
     }
     // if the user types any character, reset the background color
     if (event.key.length === 1) {
@@ -209,16 +198,20 @@ function showPrompter() {
     document.execCommand("insertHTML", false, text);
   });
 
-  flexDiv.addEventListener('keydown', (event) => {
+  prompter.addEventListener('keydown', (event) => {
     if (event.key == "Escape") {
-      closeButton.click();
+      closeBtn.click();
     }
   });
 }
 
-function makeFlexDivDraggable(topBar, flexDiv) {
+function appendChildren(parent, children) {
+  children.forEach(child => parent.appendChild(child));
+}
 
-  // make the flex div draggable by the top bar
+function makePrompterDraggable(topBar, prompter) {
+
+  // make draggable by the top bar
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   topBar.onmousedown = dragMouseDown;
 
@@ -242,8 +235,8 @@ function makeFlexDivDraggable(topBar, flexDiv) {
     pos3 = e.clientX;
     pos4 = e.clientY;
     // set the element's new position:
-    flexDiv.style.top = (flexDiv.offsetTop - pos2) + "px";
-    flexDiv.style.left = (flexDiv.offsetLeft - pos1) + "px";
+    prompter.style.top = (prompter.offsetTop - pos2) + "px";
+    prompter.style.left = (prompter.offsetLeft - pos1) + "px";
   }
 
   function closeDragElement() {
@@ -253,14 +246,14 @@ function makeFlexDivDraggable(topBar, flexDiv) {
   }
 }
 
-function makeFlexDivResizable(flexDiv) {
+function makePrompterResizable(prompter) {
 
-  var resizer = document.createElement("div");
-  resizer.className = "gpt3_prompter___resizer";
-  resizer.innerHTML = "<p style='font-size: 10px; margin: 0; padding: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg);'><></p>";
-  resizer.addEventListener("mousedown", initResize, false);
+  var resizeHandle = document.createElement("div");
+  resizeHandle.className = "gpt3_prompter___resizer";
+  resizeHandle.innerHTML = "<p style='font-size: 10px; margin: 0; padding: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(45deg);'><></p>";
+  resizeHandle.addEventListener("mousedown", initResize, false);
 
-  flexDiv.appendChild(resizer);
+  prompter.appendChild(resizeHandle);
 
   var originalWidth = 0;
   var originalHeight = 0;
@@ -270,10 +263,10 @@ function makeFlexDivResizable(flexDiv) {
   var originalMouseY = 0;
 
   function initResize(e) {
-    originalWidth = parseFloat(getComputedStyle(flexDiv, null).getPropertyValue('width').replace('px', ''));
-    originalHeight = parseFloat(getComputedStyle(flexDiv, null).getPropertyValue('height').replace('px', ''));
-    originalX = flexDiv.getBoundingClientRect().left;
-    originalY = flexDiv.getBoundingClientRect().top;
+    originalWidth = parseFloat(getComputedStyle(prompter, null).getPropertyValue('width').replace('px', ''));
+    originalHeight = parseFloat(getComputedStyle(prompter, null).getPropertyValue('height').replace('px', ''));
+    originalX = prompter.getBoundingClientRect().left;
+    originalY = prompter.getBoundingClientRect().top;
     originalMouseX = e.pageX;
     originalMouseY = e.pageY;
     window.addEventListener('mousemove', resize, false);
@@ -282,10 +275,10 @@ function makeFlexDivResizable(flexDiv) {
 
   function resize(e) {
     if (originalWidth > 0) {
-      flexDiv.style.width = (originalWidth + (e.pageX - originalMouseX)) + 'px';
+      prompter.style.width = (originalWidth + (e.pageX - originalMouseX)) + 'px';
     }
     if (originalHeight > 0) {
-      flexDiv.style.height = (originalHeight + (e.pageY - originalMouseY)) + 'px';
+      prompter.style.height = (originalHeight + (e.pageY - originalMouseY)) + 'px';
     }
   }
 
