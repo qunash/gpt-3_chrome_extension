@@ -34,7 +34,7 @@ function showSettingsPage() {
 
   var hint = document.createElement('p');
   hint.className = "gpt3_prompter___gray-text";
-  hint.innerHTML = "You can change your API key in the extension's popup menu later.";
+  hint.innerHTML = "You can change it later in the extension's popup menu.";
 
 
   var get_api_key = document.createElement('button');
