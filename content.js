@@ -32,7 +32,6 @@ function showSettingsPage() {
   input.style.margin = '10px';
   input.style.padding = '10px';
 
-  // text notifiying the user that they can change their API key in the popup menu later
   var text = document.createElement('p');
   text.style.fontSize = '14px';
   text.style.margin = '4px';
@@ -73,7 +72,7 @@ function showSettingsPage() {
   });
 
   input.addEventListener('keydown', function (e) {
-    if (e.ctrlKey && e.keyCode == 13) {
+    if (e.ctrlKey && e.key == "Enter") {
       save.click();
     }
   });
@@ -126,6 +125,7 @@ function showPrompter() {
 
   var temperatureSlider = document.createElement("input");
   temperatureSlider.type = "range";
+  temperatureSlider.className = "gpt3_prompter___input-range";
   temperatureSlider.min = "0.0";
   temperatureSlider.max = "1.0";
   temperatureSlider.step = "0.1";
