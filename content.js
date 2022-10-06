@@ -176,7 +176,13 @@ function showPrompter() {
 
 
   document.body.appendChild(prompter);
-  textArea.focus();
+  putCursorAtTheEnd(textArea);
+
+  // set max lines to 20 in contenteditable textArea
+  textArea.addEventListener('input', function () {
+    this.style.height = 'auto';
+    this.style.height = (this.scrollHeight) + 'px';
+  }, false);
 
   makePrompterDraggable(topBar, prompter);
   makePrompterResizable(prompter);
@@ -185,9 +191,8 @@ function showPrompter() {
     if (event.ctrlKey && event.key == "Enter") {
       submitBtn.click();
     }
-    // if the user types any character, reset the background color
-    if (event.key.length === 1) {
-      resetBackground();
+    if (!event.ctrlKey && !event.altKey && event.key.length == 1) {
+      resetBackground(textArea);
     }
   });
 
@@ -203,6 +208,19 @@ function showPrompter() {
       closeBtn.click();
     }
   });
+}
+
+function putCursorAtTheEnd(textArea) {
+
+  range = document.createRange();
+  range.selectNodeContents(textArea);
+  range.collapse(false);
+  selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range)
+
+  // scroll to the bottom
+  textArea.scrollTop = textArea.scrollHeight;
 }
 
 function appendChildren(parent, children) {
@@ -289,7 +307,7 @@ function makePrompterResizable(prompter) {
 
 }
 
-function resetBackground() {
+function resetBackground(textArea) {
   var allElements = textArea.getElementsByTagName("*");
   for (var i = 0; i < allElements.length; i++) {
     allElements[i].style.backgroundColor = "";
@@ -301,39 +319,36 @@ function onSubmitClick(submitButton, text) {
 
   textArea = document.getElementById("gpt3_prompter___prompt-area");
 
-  // show the loading animation
+  // loading animation
   var loadingAnimation = document.createElement("div");
   loadingAnimation.className = "gpt3_prompter___loading-animation";
   submitButton.appendChild(loadingAnimation);
 
   submitButton.disabled = true;
-  // textArea.disabled = true;
 
   chrome.runtime.sendMessage({
     message: "submit",
     text: text
   }, function (response) {
 
-    resetBackground();
+    resetBackground(textArea);
 
     var span = document.createElement("span");
-    try {
+    if (response.error == null) {
+
       span.style.backgroundColor = "#d2f4d3";
+      console.log(response);
       span.innerHTML = response.choices[0].text;
       textArea.appendChild(span);
-    } catch (e) {
+    } else {
       span.style.backgroundColor = "#f4d3d3";
-      if (response.error) {
-        span.innerHTML = '\n\nError: ' + response.error.message;
-      } else {
-        span.innerHTML = "Error: " + e;
-      }
+      span.innerHTML = "<br><br>Error: " + response.error.message;
       textArea.appendChild(span);
     }
 
     submitButton.removeChild(loadingAnimation);
     submitButton.disabled = false;
-    // textArea.disabled = false;
-    textArea.focus();
+    putCursorAtTheEnd(textArea);
+
   });
 }
