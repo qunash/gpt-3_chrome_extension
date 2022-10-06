@@ -2,7 +2,7 @@ importScripts('api.js');
 
 chrome.runtime.onInstalled.addListener(function() {
     chrome.storage.sync.set({
-        api_token: '',
+        api_key: '',
         temperature: 0.7,
         max_tokens: 64
     });

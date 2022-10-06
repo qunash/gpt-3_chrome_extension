@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var saveButton = document.getElementById('save');
     saveButton.addEventListener('click', function() {
-        var api_token = document.getElementById('api_token').value;
+        var api_key = document.getElementById('api_key').value;
         chrome.storage.sync.set({
-            api_token: api_token
+            api_key: api_key
         });
 
         window.close();
     });
 
-    document.getElementById('api_token').focus();
+    document.getElementById('api_key').focus();
 
     // on ctrl+enter, click save button
     document.addEventListener('keydown', function(e) {
@@ -27,6 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // restore settings on page load:
-chrome.storage.sync.get(['api_token', 'temperature', 'max_tokens'], function(result) {
-    document.getElementById('api_token').value = result.api_token === undefined ? '' : result.api_token;
+chrome.storage.sync.get(['api_key', 'temperature', 'max_tokens'], function(result) {
+    document.getElementById('api_key').value = result.api_key === undefined ? '' : result.api_key;
 });

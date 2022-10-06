@@ -3,8 +3,8 @@ chrome.runtime.onMessage.addListener(
 
     if (request.greeting === "show_prompter") {
 
-      chrome.storage.sync.get(['api_token'], function (result) {
-        if (result.api_token === undefined || result.api_token === '') {
+      chrome.storage.sync.get(['api_key'], function (result) {
+        if (result.api_key === undefined || result.api_key === '') {
           showSettingsPage();
         } else {
           showPrompter();
@@ -58,12 +58,12 @@ function showSettingsPage() {
 
   input.focus();
 
-  open_api_keys.addEventListener('click', function() {
+  open_api_keys.addEventListener('click', function () {
     window.open('https://beta.openai.com/account/api-keys');
   });
 
   save.addEventListener('click', function () {
-    chrome.storage.sync.set({ api_token: input.value }, function () {
+    chrome.storage.sync.set({ api_key: input.value }, function () {
       div.remove();
       if (input.value !== '') {
         showPrompter();
@@ -78,8 +78,8 @@ function showSettingsPage() {
   });
 
 }
-  
-  
+
+
 
 function showPrompter() {
 
@@ -202,6 +202,13 @@ function showPrompter() {
     }
   });
 
+  // paste only plain text
+  textArea.addEventListener('paste', (event) => {
+    event.preventDefault();
+    var text = (event.originalEvent || event).clipboardData.getData('text/plain');
+    document.execCommand("insertHTML", false, text);
+  });
+
   flexDiv.addEventListener('keydown', (event) => {
     if (event.key == "Escape") {
       closeButton.click();
@@ -301,9 +308,6 @@ function onSubmitClick(submitButton, text) {
 
   textArea = document.getElementById("gpt3_prompter___prompt-area");
 
-  // slightly grey out and disable the submit button and textarea
-  // submitButton.style.backgroundColor = "#e6e6e6";
-
   // show the loading animation
   var loadingAnimation = document.createElement("div");
   loadingAnimation.className = "gpt3_prompter___loading-animation";
@@ -334,7 +338,6 @@ function onSubmitClick(submitButton, text) {
       textArea.appendChild(span);
     }
 
-    // remove the loading animation
     submitButton.removeChild(loadingAnimation);
     submitButton.disabled = false;
     // textArea.disabled = false;

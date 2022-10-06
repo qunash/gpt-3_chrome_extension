@@ -12,9 +12,9 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
 
         var prompt = request.text;
 
-        // set 'api_token', 'temperature', 'max_tokens' from chrome.storage.sync.get all at once
-        const { api_token, temperature, max_tokens } = await new Promise((resolve, reject) => {
-            chrome.storage.sync.get(['api_token', 'temperature', 'max_tokens'], (result) => {
+        // set 'api_key', 'temperature', 'max_tokens' from chrome.storage.sync.get all at once
+        const { api_key, temperature, max_tokens } = await new Promise((resolve, reject) => {
+            chrome.storage.sync.get(['api_key', 'temperature', 'max_tokens'], (result) => {
                 if (chrome.runtime.lastError) {
                     reject(chrome.runtime.lastError);
                 } else {
@@ -37,7 +37,7 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${api_token}`
+                    'Authorization': `Bearer ${api_key}`
                 },
                 body: JSON.stringify(data)
             });
