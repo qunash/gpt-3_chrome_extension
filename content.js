@@ -165,6 +165,7 @@ function showPrompter() {
 
   var submitBtn = document.createElement("button");
   submitBtn.innerHTML = "Submit";
+  submitBtn.title = "Ctrl+Enter";
   submitBtn.className = "gpt3_prompter___prompt-submit-button";
   submitBtn.addEventListener("click", function () {
     onSubmitClick(submitBtn, textArea.textContent);
