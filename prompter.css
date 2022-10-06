@@ -47,6 +47,7 @@
     color: black;
     border: none;
     outline: none;
+    overflow: auto;
 }
 
 .gpt3_prompter___prompt-bottom-bar {
