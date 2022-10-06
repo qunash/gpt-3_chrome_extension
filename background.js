@@ -15,8 +15,8 @@ chrome.commands.onCommand.addListener(async function(command) {
         let tab = await getCurrentTab();
 
         try {
-            
-            chrome.tabs.sendMessage(tab.id, {greeting: 'show_prompter'});
+
+           chrome.tabs.sendMessage(tab.id, {greeting: 'show_prompter'});
 
         } catch (e) {
             console.log(e);
