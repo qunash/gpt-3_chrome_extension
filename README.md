@@ -12,4 +12,4 @@ https://user-images.githubusercontent.com/3750161/194698267-2f05fda8-22d0-4296-b
 2. Go to `chrome://extensions/`
 3. Enable developer mode
 4. Click "Load unpacked"
-5. Select the `extension` folder
+5. Select the cloned repository folder
