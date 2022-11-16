@@ -15,6 +15,10 @@ https://user-images.githubusercontent.com/3750161/194698392-d695437c-7c90-400c-9
 4. Click "Load unpacked"
 5. Select the cloned repository folder
 
+## How to use
 
+Press Alt+S to open the prompter with the selected text as the prompt.
+
+---
 
 <img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-2.svg" alt="Buy Me A Coffee" style="width: 200px; height: 75px;" >
