@@ -17,7 +17,7 @@ https://user-images.githubusercontent.com/3750161/194698392-d695437c-7c90-400c-9
 
 ## How to use
 
-Press Alt+S to open the prompter with the selected text as the prompt.
+Press **Alt+S** to open the prompter with the selected text as the prompt.
 
 ---
 
