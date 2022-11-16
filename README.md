@@ -14,3 +14,7 @@ https://user-images.githubusercontent.com/3750161/194698392-d695437c-7c90-400c-9
 3. Enable developer mode
 4. Click "Load unpacked"
 5. Select the cloned repository folder
+
+
+
+<img src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-2.svg" alt="Buy Me A Coffee" style="width: 200px; height: 75px;" >
