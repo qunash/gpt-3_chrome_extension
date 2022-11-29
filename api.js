@@ -25,7 +25,7 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
 
         const url = 'https://api.openai.com/v1/completions';
         const data = {
-            "model": "text-davinci-002",
+            "model": "text-davinci-003",
             "prompt": prompt,
             "temperature": parseFloat(temperature),
             "max_tokens": parseInt(max_tokens)
