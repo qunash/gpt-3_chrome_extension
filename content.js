@@ -340,6 +340,7 @@ function onSubmitClick(submitButton, text) {
       span.style.backgroundColor = "#d2f4d3";
       console.log(response);
       span.innerHTML = response.choices[0].text;
+      // span.innerHTML = response.choices[0].message.content;
       textArea.appendChild(span);
     } else {
       span.style.backgroundColor = "#f4d3d3";
