@@ -25,24 +25,47 @@ const sendRequestToAPI = async (request, _sender, sendResponse) => {
 
         const url = 'https://api.openai.com/v1/completions';
         const data = {
-            "model": "gpt-3.5-turbo",
+            "model": "text-davinci-003",
             "prompt": prompt,
             "temperature": parseFloat(temperature),
             "max_tokens": parseInt(max_tokens)
-
         };
 
+        // const url = "https://api.openai.com/v1/chat/completions";
+        // const headers = {
+        //     "Content-Type": "application/json",
+        //     "Authorization": `Bearer ${api_key}`
+        // };
+        // const data = JSON.stringify({
+        //     model: "gpt-3.5-turbo",
+        //     messages: [
+        //         {
+        //             role: "user",
+        //             content: prompt
+        //         }
+        //     ]
+        // });
+
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${api_key}`
-                },
-                body: JSON.stringify(data)
-            });
-            const json = await response.json();
-            sendResponse(json);
+            // const response = await fetch(url, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${api_key}`
+            //     },
+            //     body: JSON.stringify(data)
+            // });
+            // const json = await response.json();
+            // sendResponse(json);
+
+            // const response = await fetch(url, {
+            //     method: "POST",
+            //     headers: headers,
+            //     body: data
+            // });
+            // const json = await response.json();
+            // sendResponse(json);        
+
         } catch (e) {
             sendResponse({ error: { message: e.message } });
 
